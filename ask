@@ -1,0 +1,28 @@
+#!/bin/bash
+
+[! -t 0] && [-p /dev/stdin] && piped_input=$(cat) || piped_input=""
+user_prompt="$piped_input $@"
+
+API_KURALI="You are a CLI tool. Output plain text only. No yapping. Keep the output concise."
+
+payload=$(jq -n \
+    --arg mdl "$ASK_MODEL" \
+    --arg sys_msg "$API_KURALI" \
+    --arg usr_msg  "$user_prompt" \
+    '{
+        "model": $mdl,
+        "messages": [
+            { "role": "system", "content": $sys_msg },
+            { "role": "user", "content": $usr_msg }
+        ]
+    }'
+)
+
+response=$(curl --silent \
+    --request POST "$ASK_API_URL" \
+    --header "Content-Type: application/json" \
+    --header "Authorization: Bearer $ASK_API_KEY" \
+    --data "$payload"
+)
+
+echo "$response" | jq -r '.choices[0].message.content'
