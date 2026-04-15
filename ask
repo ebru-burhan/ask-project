@@ -17,7 +17,7 @@ user_prompt="$piped_input $@"
 
 API_KURALI="You are a CLI tool. Output plain text only. No yapping. Keep the output concise."
 
-payload=$(./jq -n \
+payload=$(jq -n \
     --arg mdl "$ASK_MODEL" \
     --arg sys_msg "$API_KURALI" \
     --arg usr_msg  "$user_prompt" \
@@ -37,4 +37,4 @@ response=$(curl --silent \
     --data "$payload"
 )
 
-echo "$response" | ./jq -r '.choices[0].message.content'
+echo "$response" | jq -r '.choices[0].message.content'
