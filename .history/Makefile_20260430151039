@@ -1,0 +1,5 @@
+quality.md: codebase.txt
+	cat codebase.txt | ./ask "Analyze code quality, readability, structure, and duplication. Output 5-7 bullet points (problem -> fix)." > quality.md
+
+security.md: codebase.txt
+	cat 
