@@ -1,0 +1,19 @@
+quality.md: codebase.txt
+	cat codebase.txt | ./ask "Analyze code quality, readability, structure, and duplication. Output 5-7 bullet points (problem -> fix)." > quality.md
+
+security.md: codebase.txt
+	cat codebase.txt | ./ask "Analyze the code for security vulnerabilities and unsafe patterns. Output 5-7 bullet points (risk -> mitigation)." > security.md
+
+perf.md: codebase.txt
+	cat codebase.txt | ./ask "Analyze the code for performance bottlenecks and inefficiencies. Output 5-7 bullet points (issue -> optimization)." > perf.md
+
+
+
+quality.sum.md: quality.md
+	cat quality.md | ./ask "Make this list exactly 5 bullets. Only give me the actionable things." > quality.sum.md
+
+perf.sum.md: perf.md
+	cat perf.md | ./ask "Make this list exactly 5 bullets. Only give me the actionable things." > perf.sum.md
+
+security.sum.md: security.md
+	cat security.md | ./ask "Make this list exactly 5 bullets. Only give me the actionable things." > security.sum.md
